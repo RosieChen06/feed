@@ -1,42 +1,43 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Paginator from '../../components/Paginator';
 import Card from '../../components/Card';
-import axios from 'axios'
 import { Box, CircularProgress } from '@mui/material';
+import { PostContext } from '../../context/PostContext';
+import { RxReload } from "react-icons/rx";
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
-  interface Post {
-    body: string,
-    id: number,
-    title: string;
-    userId: number;
-}
-
-  const [post, setPost] = useState<Post[]>([])
-  const [loader, setLoader] = useState<Boolean>(false)
   const [page, setPage] = useState<Number>(1);
+  const context = useContext(PostContext);
+  const navigate  = useNavigate()
 
-  const fetchTodo = async () => {
-      setLoader(true)
-      try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-        setPost(response.data); 
-      } catch (error) {
-        console.error('An unexpected error occurred:', error);
-      }finally{
-          setLoader(false)
-      }
-  };
-  useEffect(()=>{
-      fetchTodo()
-  },[])
+  const { posts, loader, fetchTodo, setUserLogin, userLogin } = context;
+  const handleLogin = () => {
+    if(userLogin.length>0) return
+    navigate(`/login`)
+  }
 
   return (
     <div className='h-[100vh] flex flex-col'>
       <div className='h-fit bg-gradient-to-br from-[#e6aaf4] to-[#a052f4] py-2 px-6 text-white'>
-        <h1 className='text-3xl mt-5'>Feed</h1>
+      <div className="flex justify-between items-center px-6 py-4">
+        <h1 className="text-3xl font-bold text-white">Feed</h1>
+
+        <div className="flex flex-row items-center gap-3">
+          <p 
+            className="border rounded-full px-4 py-1 bg-[#d7b4fc] text-sm cursor-pointer text-white"
+            onClick={handleLogin}
+          >
+            {userLogin.length >0? userLogin:'Login'}
+          </p>
+          <RxReload
+            className="text-white text-2xl font-semibold cursor-pointer"
+            onClick={() => fetchTodo()}
+          />
+        </div>
+      </div>
         <div className='flex w-full mb-2 mt-16 bg-white border-none justify-center rounded-full py-2'>
-          <Paginator page={post.length} setPage={setPage}/>
+          <Paginator page={posts.length} setPage={setPage}/>
         </div>
       </div>
       <div className='flex-1 overflow-scroll w-full px-8 mt-4 justify-center items-center'>
@@ -53,7 +54,7 @@ const Home: React.FC = () => {
           >
             <CircularProgress color="secondary" size={30} />
           </Box>:
-          post.slice(20 * page - 20 , 20 * page).map((item) => (
+          posts.slice(20 * page - 20 , 20 * page).map((item) => (
             <Card title={item.title} userId={item.userId} key={item.title} id={item.id} />
           ))
         }

@@ -2,17 +2,22 @@ import React from 'react'
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-const Paginator = () => {
-  return (
-    <div>
+type PaginatorProps = {
+    page: number,
+    setPage: React.Dispatch<React.SetStateAction<number>>;
+  };
+  
+  const Paginator: React.FC<PaginatorProps> = ({ page, setPage }) => {
+    const ttl_page = Math.ceil(page / 20)
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+        console.log('at page:', value);
+      };
+    return (
       <Stack spacing={2}>
-      <Pagination count={10} />
-      <Pagination count={10} color="primary" />
-      <Pagination count={10} color="secondary" />
-      <Pagination count={10} disabled />
-    </Stack>
-    </div>
-  )
-}
+        <Pagination count={ttl_page} color="secondary" onChange={handleChange}/>
+      </Stack>
+    );
+  };
 
 export default Paginator

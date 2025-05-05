@@ -7,7 +7,6 @@ function App() {
   return (
     <>
       <div className='text-blue-400 font-extrabold'>
-        <p>gsf</p>
         <Routes>
           <Route path='/' element={<Home />}></Route>
           <Route path='/list/:id' element={<Detail />}></Route>

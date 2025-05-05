@@ -25,8 +25,6 @@ interface CardProps {
             <p className="text-xs text-gray-400 mt-1">{`Created by user ${userId}`}</p>
           </div>
         </div>
-  
-        {/* 右側：按鈕 */}
         <Button
           variant="contained"
           onClick={() => navigate(`/list/${id}`)}
@@ -39,9 +37,7 @@ interface CardProps {
           }}
           className="flex items-center gap-1 ml-4"
         >
-          {/* 大螢幕顯示文字 */}
           <span className="hidden sm:inline">View More</span>
-          {/* 小螢幕顯示箭頭 */}
           <span className="inline sm:hidden">
             <IoIosArrowDropright className="text-3xl" />
           </span>

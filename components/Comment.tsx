@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { PostContext } from '../context/PostContext';
 
 interface Comment {
     body: string;
@@ -16,7 +18,15 @@ interface Comment {
   }
 
 const Comment:React.FC<CommentProps> = ({ body, email, name, setComments }) => {
+    const context = useContext(PostContext);
+    const navigate = useNavigate()
+    const { userLogin, setUserLogin } = context;
+
     const handleDelete = (email:string, body:string, name: string) => {
+        if(userLogin.length===0) {
+            navigate('/login')
+            return
+        }
         Swal.fire({
           title: 'Are you sure you would like to delete this comment？',
           icon: 'warning',
@@ -40,12 +50,14 @@ const Comment:React.FC<CommentProps> = ({ body, email, name, setComments }) => {
             <h1 className='text-md'>{name}</h1>
             <p className='text-sm mt-1'>{body}</p>
         </div>
+        {email===userLogin?     
         <div 
             className='p-2 rounded-full cursor-pointer hover:bg-red-100 mt-3 sm:mt-0 border-gray-300 border-[1px] w-fit h-fit'
             onClick={()=>handleDelete(email, body, name)}
         >
             <MdOutlineDeleteOutline />
-        </div>
+        </div>:''
+        }
     </div>
   )
 }

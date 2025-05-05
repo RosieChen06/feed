@@ -40,7 +40,7 @@ const Home: React.FC = () => {
           <Paginator page={posts.length} setPage={setPage}/>
         </div>
       </div>
-      <div className='flex-1 overflow-scroll w-full px-8 mt-4 justify-center items-center'>
+      <div className='flex-1 overflow-y-scroll w-full px-8 mt-4 justify-center items-center'>
         {
           loader? 
           <Box

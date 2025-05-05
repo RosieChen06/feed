@@ -23,6 +23,7 @@ const PostProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
   const [userLogin, setUserLogin] = useState<String>('')
+  const [email, setEmail] = useState<String>('');
 
   const fetchTodo = async () => {
     setLoader(true);
@@ -41,7 +42,7 @@ const PostProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
 
   return (
-    <PostContext.Provider value={{ posts, loader, fetchTodo, userLogin, setUserLogin }}>
+    <PostContext.Provider value={{ posts, loader, fetchTodo, userLogin, setUserLogin, email, setEmail }}>
       {children}
     </PostContext.Provider>
   );

@@ -7,11 +7,14 @@ import { RxReload } from "react-icons/rx";
 import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
-  const [page, setPage] = useState<Number>(1);
+  const [page, setPage] = useState<number>(1);
   const context = useContext(PostContext);
   const navigate  = useNavigate()
+  if (!context) {
+    throw new Error('PostContext not found');
+  }
 
-  const { posts, loader, fetchTodo, setUserLogin, userLogin } = context;
+  const { posts, loader, fetchTodo, userLogin } = context;
   const handleLogin = () => {
     if(userLogin.length>0) return
     navigate(`/login`)

@@ -5,9 +5,11 @@ import Swal from 'sweetalert2';
 import { PostContext } from '../context/PostContext';
 
 interface Comment {
-    body: string;
-    email: string;
+    postId: number;
+    id: number;
     name: string;
+    email: string;
+    body: string;
   }
 
   interface CommentProps {
@@ -20,7 +22,10 @@ interface Comment {
 const Comment:React.FC<CommentProps> = ({ body, email, name, setComments }) => {
     const context = useContext(PostContext);
     const navigate = useNavigate()
-    const { userLogin, setUserLogin } = context;
+    if (!context) {
+        throw new Error('PostContext not found');
+      }
+    const { userLogin } = context;
 
     const handleDelete = (email:string, body:string, name: string) => {
         if(userLogin.length===0) {

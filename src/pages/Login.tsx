@@ -6,6 +6,9 @@ import { PostContext } from '../../context/PostContext';
 const Login:React.FC = () => {
   const context = useContext(PostContext);
   const navigate = useNavigate()
+  if (!context) {
+    throw new Error('PostContext not found');
+  }
   const { userLogin, setUserLogin } = context;
   const isDisabled = !userLogin;
 

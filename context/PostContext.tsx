@@ -1,7 +1,6 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
-// 定義狀態型別
 interface Post {
   userId: number;
   id: number;
@@ -12,18 +11,17 @@ interface Post {
 interface PostContextType {
   posts: Post[];
   loader: boolean;
-  fetchTodo: () => void;
+  fetchTodo: () => Promise<void>;
+  userLogin: string;
+  setUserLogin: React.Dispatch<React.SetStateAction<string>>;
 }
 
-// 創建 Context 並設置型別
 const PostContext = createContext<PostContextType | undefined>(undefined);
 
-// 創建 Provider 來管理 Post 的狀態
 const PostProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
-  const [userLogin, setUserLogin] = useState<String>('')
-  const [email, setEmail] = useState<String>('');
+  const [userLogin, setUserLogin] = useState<string>('');
 
   const fetchTodo = async () => {
     setLoader(true);
@@ -42,7 +40,7 @@ const PostProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
 
   return (
-    <PostContext.Provider value={{ posts, loader, fetchTodo, userLogin, setUserLogin, email, setEmail }}>
+    <PostContext.Provider value={{ posts, loader, fetchTodo, userLogin, setUserLogin }}>
       {children}
     </PostContext.Provider>
   );

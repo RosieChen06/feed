@@ -5,29 +5,38 @@ import axios from 'axios';
 import { FaRegCommentDots } from "react-icons/fa";
 import Comment from '../../components/Comment';
 
+interface Comment {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+}
+
 const Detail: React.FC = () => {
   const { id } = useParams();
   const context = useContext(PostContext);
+
+  if (!context) {
+    throw new Error('PostContext not found');
+  }
+
   const { posts } = context;
   const selectedPost = posts.find((item) => item.id === Number(id)); 
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState<Comment[]>([]);
+
   const fetchComment = async () => {
-    // setLoader(true);s
     try {
       const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${id}/comments`);
       setComments(response.data);
     } catch (error) {
       console.error('An unexpected error occurred:', error);
-    } finally {
-      // setLoader(false);
     }
   };
 
   useEffect(() => {
     fetchComment();
-  }, []);
-
-  console.log(comments)
+  }, [id]);
 
   return selectedPost && (
     <div className="bg-[#b471fb] h-[100vh] flex flex-col px-4 sm:px-36 pt-4 sm:pt-12 w-full text-gray-700">
@@ -45,14 +54,20 @@ const Detail: React.FC = () => {
             <p>Comments</p>
           </div>
           <div className="mt-5 flex flex-col gap-3 border rounded-lg overflow-y-auto max-h-[35vh] p-3">
-            {comments.map((item, index) => (
-              <Comment key={index} body={item.body} email={item.email} name={item.name} setComments={setComments}/>
+            {comments.map((item) => (
+              <Comment
+                key={item.id}
+                body={item.body}
+                email={item.email}
+                name={item.name}
+                setComments={setComments}
+              />
             ))}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Detail;

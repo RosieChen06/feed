@@ -10,8 +10,8 @@ Users can log in, and delete their comments in a fast and responsive UI.
 5. Type-safe development using TypeScript
 
 [Tech Stack] <br />
-Frontend: React.js, TypeScript, Vite
-Styling: Tailwind CSS
+Frontend: React.js, TypeScript, Vite <br/>
+Styling: Tailwind CSS <br/>
 State Management: React Hooks, Context API
 
 [Getting Started] 

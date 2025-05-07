@@ -1,6 +1,6 @@
 [Feed] <br />
 A modern and lightweight social feed application built with React.js, TypeScript, and Vite.
-Users can sign up, log in, and share posts in a fast and responsive UI.
+Users can log in, and delete their comments in a fast and responsive UI.
 
 [Features] 
 1. User authentication (Login)
